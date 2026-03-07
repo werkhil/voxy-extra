@@ -32,25 +32,23 @@ public class VoxyClientInstanceMixin {
 
     @ModifyVariable(method = "<init>()V", at = @At(value = "INVOKE_ASSIGN", target = "Lme/cortex/voxy/client/VoxyClientInstance;getBasePath()Ljava/nio/file/Path;"), name = "path")
     private Path voxyExtra$lodMirror(Path path) {
-        path = voxyExtra$lodMirrorCheck(path);
-        return path;
+        return voxyExtra$lodMirrorCheck(path);
     }
 
     @Unique
     private Path voxyExtra$lodMirrorCheck(Path path) {
+        if (!VoxyExtraConfig.CONFIG.getLodMirror()) return path;
         if (VoxyExtraConfig.CONFIG.lodMirrorList.isEmpty()) return path;
-        if (VoxyExtraConfig.CONFIG.getLodMirror()) {
-            String value = path.toString().replace("\\", "/");
-            String ip = value.substring(value.lastIndexOf("/") + 1).replace("_", ":");
-            for (int i = 0; i < VoxyExtraConfig.CONFIG.lodMirrorList.size(); i++) {
-                var list = VoxyExtraConfig.CONFIG.lodMirrorList.get(i);
-                if (list.getFirst().equals(ip)) return path;
-                if (list.contains(ip)) {
-                    String listf = list.getFirst();
-                    path = path.resolveSibling(listf);
-                    VoxyExtra.LOGGER.warn("[Voxy Extra] Successfully replaced path to {}", listf);
-                    break;
-                }
+        var IP = VoxyExtra.IP;
+        if (IP == null) return path;
+        for (int i = 0; i < VoxyExtraConfig.CONFIG.lodMirrorList.size(); i++) {
+            var list = VoxyExtraConfig.CONFIG.lodMirrorList.get(i);
+            var listFirst = list.getFirst();
+            if (listFirst.equals(IP)) return path;
+            if (list.contains(IP)) {
+                path = path.resolveSibling(listFirst);
+                VoxyExtra.LOGGER.warn("[Voxy Extra] Successfully replaced path to {}", listFirst);
+                break;
             }
         }
         return path;

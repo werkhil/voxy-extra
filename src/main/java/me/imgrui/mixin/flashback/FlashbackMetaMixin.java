@@ -61,7 +61,7 @@ public class FlashbackMetaMixin implements IFlashbackM {
         var OneShot = cir.getReturnValue();
         if (OneShot != null && meta != null) {
             if (meta.has("voxy_storage_path")) {
-                boolean saved = meta.get("voxy_storage_path").toString().contains("voxy\\\\flashback\\\\");
+                boolean saved = meta.get("voxy_storage_path").toString().replace("\\","/").contains("voxy/flashback");
                 ((IFlashbackM)OneShot).setSavedLods(saved);
                 FlashbackCopy.voxySavedLods = saved;
             } else {

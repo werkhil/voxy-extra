@@ -22,9 +22,9 @@ public abstract class ClientPacketListenerMixin {
     private void voxyExtra$captureHost(Minecraft minecraft, Connection connection, CommonListenerCookie cookie, CallbackInfo ci) {
         ServerData data = this.getServerData();
         if (data == null || data.ip.isBlank()) {
-            VoxyExtra.HOST = null;
+            VoxyExtra.IP = null;
             return;
         }
-        VoxyExtra.HOST = ServerAddress.parseString(data.ip).getHost();
+        VoxyExtra.IP = ServerAddress.parseString(data.ip).getHost();
     }
 }

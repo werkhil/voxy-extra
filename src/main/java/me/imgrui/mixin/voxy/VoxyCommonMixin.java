@@ -16,14 +16,14 @@ public class VoxyCommonMixin {
     @Inject(method = "createInstance", at = @At("HEAD"), cancellable = true)
     private static void voxyExtra$serverBlacklist(CallbackInfo ci) {
         if (VoxyExtraConfig.CONFIG.getServerBlacklist() && VoxyConfig.CONFIG.enabled) {
-            var host = VoxyExtra.HOST;
-            if (host != null && VoxyExtraConfig.CONFIG.serverBlacklistList.contains(host)) {
+            var IP = VoxyExtra.IP;
+            if (IP != null && VoxyExtraConfig.CONFIG.serverBlacklistList.contains(IP)) {
                 VoxyConfig.CONFIG.enabled = false;
                 VoxyClientInstance.isInGame = false;
                 ci.cancel();
                 IrisUtil.reload();
                 VoxyExtra.isInBlacklist = true;
-                VoxyExtra.LOGGER.warn("[Voxy Extra] Server {} in blacklist, disabling Voxy", host);
+                VoxyExtra.LOGGER.warn("[Voxy Extra] Server {} in blacklist, disabling Voxy", IP);
                 return;
             }
         }

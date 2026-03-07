@@ -12,7 +12,7 @@ public class VoxyExtra implements ModInitializer {
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
     public static boolean isInBlacklist;
-	public static volatile @Nullable String HOST;
+	public static volatile @Nullable String IP;
 
 	@Override
 	public void onInitialize() {
