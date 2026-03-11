@@ -15,9 +15,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class VoxyCommonMixin {
     @Inject(method = "createInstance", at = @At("HEAD"), cancellable = true)
     private static void voxyExtra$serverBlacklist(CallbackInfo ci) {
-        if (VoxyExtraConfig.CONFIG.getServerBlacklist() && VoxyConfig.CONFIG.enabled) {
+        if (VoxyExtraConfig.CONFIG.isServerBlacklistEnabled() && VoxyConfig.CONFIG.enabled) {
             var IP = VoxyExtra.IP;
-            if (IP != null && VoxyExtraConfig.CONFIG.serverBlacklistList.contains(IP)) {
+            if (IP != null && VoxyExtraConfig.CONFIG.serverBlacklist.contains(IP)) {
                 VoxyConfig.CONFIG.enabled = false;
                 VoxyClientInstance.isInGame = false;
                 ci.cancel();

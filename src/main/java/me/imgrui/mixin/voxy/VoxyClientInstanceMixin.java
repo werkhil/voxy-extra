@@ -23,7 +23,7 @@ public class VoxyClientInstanceMixin {
 
     @Inject(method = "<init>()V", at = @At(value = "FIELD", target = "Lme/cortex/voxy/client/VoxyClientInstance;noIngestOverride:Z", opcode = Opcodes.PUTFIELD))
     private void voxyExtra$flashbackIngest(CallbackInfo ci, @Local(name = "path") Path path) {
-        if (VoxyExtraConfig.CONFIG.getFlashbackIngest()) {
+        if (VoxyExtraConfig.CONFIG.isFlashbackIngestEnabled()) {
             this.noIngestOverride = path != null && !FlashbackCopy.voxySavedLods;
         } else {
             this.noIngestOverride = path != null;
@@ -37,12 +37,12 @@ public class VoxyClientInstanceMixin {
 
     @Unique
     private Path voxyExtra$lodMirrorCheck(Path path) {
-        if (!VoxyExtraConfig.CONFIG.getLodMirror()) return path;
-        if (VoxyExtraConfig.CONFIG.lodMirrorList.isEmpty()) return path;
+        if (!VoxyExtraConfig.CONFIG.isLinkedServersEnabled()) return path;
+        if (VoxyExtraConfig.CONFIG.linkedServers.isEmpty()) return path;
         var IP = VoxyExtra.IP;
         if (IP == null) return path;
-        for (int i = 0; i < VoxyExtraConfig.CONFIG.lodMirrorList.size(); i++) {
-            var list = VoxyExtraConfig.CONFIG.lodMirrorList.get(i);
+        for (int i = 0; i < VoxyExtraConfig.CONFIG.linkedServers.size(); i++) {
+            var list = VoxyExtraConfig.CONFIG.linkedServers.get(i);
             var listFirst = list.getFirst();
             if (listFirst.equals(IP)) return path;
             if (list.contains(IP)) {

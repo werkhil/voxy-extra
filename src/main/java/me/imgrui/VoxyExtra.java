@@ -12,7 +12,7 @@ public class VoxyExtra implements ModInitializer {
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
     public static boolean isInBlacklist;
-	public static volatile @Nullable String IP;
+	public static volatile @Nullable String IP; // Why is this named IP if we're actually working with a host (domain or IP)?
 
 	@Override
 	public void onInitialize() {
